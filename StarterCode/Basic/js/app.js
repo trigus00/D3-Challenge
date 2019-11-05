@@ -122,15 +122,15 @@ chartGroup.append("g")
                             .text(d => d.abbr);
     console.log(healthdata)
     
-
+// append y axis
   chartGroup.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", 0 - 43)
-            .attr("x", 0 -275)
+            .attr("y", 0 - margin.left)
+            .attr("x", 0 - (height / 2))
             .attr("dy", "1em")
-            .attr("class", "axisText")
+            .attr("axisText", true)
             .text("Lacks Healthcare (%)");
-
+// append x axis
   chartGroup.append("text")
             .attr("transform", `translate(${width / 2}, ${height + margin.top + 20})`)
             .attr("class", "axisText")
