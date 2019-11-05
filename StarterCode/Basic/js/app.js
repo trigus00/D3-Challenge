@@ -100,38 +100,41 @@ chartGroup.append("g")
 
   // append initial circles
   var circlesGroup = chartGroup.selectAll("circle")
-    .data(healthdata)
-    .enter()
-    .append("circle")
-    .attr("cx", d => xLinearScale(d.poverty))
-    .attr("cy", d => yLinearScale(d.healthcare))
-    .attr("r", "10")
-    .attr("fill", "lightblue")
-    .attr("opacity", ".5");
+                               .data(healthdata)
+                               .enter()
+                               .append("circle")
+                               .attr("cx", d => xLinearScale(d.poverty))
+                               .attr("cy", d => yLinearScale(d.healthcare))
+                               .attr("r", "10")
+                               .attr("fill", "lightblue")
+                               .attr("opacity", ".5");
 
-    var textGroup = chartGroup.selectAll("text")
-    .data(healthdata)
-    .enter()
-    .append("text")
-    .style("fill", "black")
-    .attr('x',d => xLinearScale(d.poverty))
-    .attr('y',d => yLinearScale(d.healthcare))
-    .attr("text-anchor", "middle")
-    .text(d => d.abbr);
+  var textGroup = chartGroup.selectAll("text")
+                            .data(healthdata)
+                            .enter()
+                            .append("text")
+                            .style("fill", "black")
+                            .attr('x',d => xLinearScale(d.poverty))
+                            .attr('y',d => yLinearScale(d.healthcare))
+                            .attr("cy", "10px") 
+                            .attr("cx", "10px ") 
+                            .attr("text-anchor", "middle")
+                            .text(d => d.abbr);
+    console.log(healthdata)
     
 
-    chartGroup.append("text")
-    .attr("transform", "rotate(-90)")
-    .attr("y", 0 - 43)
-    .attr("x", 0 -275)
-    .attr("dy", "1em")
-    .attr("class", "axisText")
-    .text("Lacks Healthcare (%)");
+  chartGroup.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - 43)
+            .attr("x", 0 -275)
+            .attr("dy", "1em")
+            .attr("class", "axisText")
+            .text("Lacks Healthcare (%)");
 
   chartGroup.append("text")
-    .attr("transform", `translate(${width / 2}, ${height + margin.top + 20})`)
-    .attr("class", "axisText")
-    .text("In Poverty (%)");
+            .attr("transform", `translate(${width / 2}, ${height + margin.top + 20})`)
+            .attr("class", "axisText")
+            .text("In Poverty (%)");
 
 }).catch(function(error) {
   console.log(error);
