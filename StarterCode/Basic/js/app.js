@@ -69,7 +69,7 @@ d3.csv("/StarterCode/Basic/data/healthdata.csv").then(function(healthdata){
     
     data.healthcare = +data.healthcare;
     data.poverty = +data.poverty
-    data.abbr = +data.abbr
+    data.abbr = data.abbr
     data.state = +data.state
  
     
@@ -95,8 +95,8 @@ chartGroup.append("g")
           .call(bottomAxis);
 
   // append y axis
-  chartGroup.append("g")
-    .call(leftAxis);
+chartGroup.append("g")
+          .call(leftAxis);
 
   // append initial circles
   var circlesGroup = chartGroup.selectAll("circle")
@@ -116,16 +116,10 @@ chartGroup.append("g")
     .style("fill", "black")
     .attr('x',d => xLinearScale(d.poverty))
     .attr('y',d => yLinearScale(d.healthcare))
-    .attr("dy", ".25em")
-    .attr("font-size", "10px")
-    .text(function(d){
-      return d.abbr});
+    .attr("text-anchor", "middle")
+    .text(d => d.abbr);
     
 
-
-
-    
-    
     chartGroup.append("text")
     .attr("transform", "rotate(-90)")
     .attr("y", 0 - 43)
