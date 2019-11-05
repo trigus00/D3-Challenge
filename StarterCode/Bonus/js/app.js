@@ -28,7 +28,7 @@ var chosenYAxis = "healthcare";
 
   
 //updating x-scale var upon clicking on axis label
-function xscale(healthdata,chosenXAxis) {
+function xscale(healthdata, chosenXAxis) {
   // creating scale 
   var xLinearScale = d3.scaleLinear()
                         .domain([d3.min(healthdata, d => {
@@ -109,7 +109,7 @@ function renderText(textGroup, newXScale, chosenXAxis, newYScale , chosenYAxis )
 function updateTooltip(chosenXAxis,chosenYAxis,circlesGroup){
   // choosing x axis 
           if(chosenXAxis ==='poverty'){
-            var xLabel="Poverty";
+            var xLabel= "In Poverty (%) ";
           }
           //income
           else if (chosenXAxis ==='income'){
@@ -143,8 +143,13 @@ function updateTooltip(chosenXAxis,chosenYAxis,circlesGroup){
             circlesGroup.call(toolTip);
 
             //add events
-            circlesGroup.on("mouseover", toolTip.show)
-                        .on("mouseout", toolTip.hide);
+            circlesGroup.on("mouseover", function(data) {
+              toolTip.show(data, this);
+            })
+            
+              .on("mouseout", function(data, index) {
+                toolTip.hide(data, this);
+              });       
 
   return circlesGroup;
 
@@ -155,7 +160,7 @@ function updateTooltip(chosenXAxis,chosenYAxis,circlesGroup){
 
 // parse the data 
 
-d3.csv("assets/data/healthdata.csv").then(function(healthdata){
+d3.csv("/StarterCode/Bonus/data/healthdata.csv").then(function(healthdata){
   console.log(healthdata);
 
   healthdata.forEach(function(data){
@@ -229,7 +234,7 @@ var xLabelsGroup = chartGroup.append("g")
                              .attr("transform", `translate(${width / 2}, ${height + 20 + margin.top})`);
 
 var povertyLabel = xLabelsGroup.append("text")
-                               .classed("aText", true)
+                               
                                .classed("active", true)
                                .attr("x", 0)
                                .attr("y", 20)
@@ -237,7 +242,7 @@ var povertyLabel = xLabelsGroup.append("text")
                                .text("In Poverty (%)");
 
 var ageLabel = xLabelsGroup.append("text")
-                           .classed("aText", true)
+                           
                            .classed("inactive", true)
                            .attr("x", 0)
                            .attr("y", 40)
@@ -245,7 +250,7 @@ var ageLabel = xLabelsGroup.append("text")
                            .text("Age (Median)")
 
 var incomeLabel = xLabelsGroup.append("text")
-                              .classed("aText", true)
+                             
                               .classed("inactive", true)
                               .attr("x", 0)
                               .attr("y", 60)
@@ -257,7 +262,7 @@ var yLabelsGroup = chartGroup.append("g")
   .attr("transform", `translate(${0 - margin.left/4}, ${(height/2)})`);
 
 var healthcareLabel = yLabelsGroup.append("text")
-                                  .classed("aText", true)
+                                 
                                   .classed("active", true)
                                   .attr("x", 0)
                                   .attr("y", 0 - 20)
@@ -267,7 +272,7 @@ var healthcareLabel = yLabelsGroup.append("text")
                                   .text("Lacks Healthcare (%)");
 
 var smokesLabel = yLabelsGroup.append("text")
-                              .classed("aText", true)
+                              
                               .classed("inactive", true)
                               .attr("x", 0)
                               .attr("y", 0 - 40)
@@ -277,7 +282,7 @@ var smokesLabel = yLabelsGroup.append("text")
                               .text("Smokes (%)");
 
 var obesityLabel = yLabelsGroup.append("text")
-                               .classed("aText", true)
+                               
                                .classed("inactive", true)
                                .attr("x", 0)
                                .attr("y", 0 - 60)
@@ -299,6 +304,7 @@ xLabelsGroup.selectAll("text")
 
         //replace chosenXAxis with value
         chosenXAxis = value;
+        //console.log(chosenXaxis)
 
         //update x scale for new data
         xLinearScale = xScale(healthdata, chosenXAxis);
@@ -313,7 +319,7 @@ xLabelsGroup.selectAll("text")
         textGroup = renderText(textGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
 
         //update tooltips with new info
-        circlesGroup = updateTooltip(chosenXAxis, chosenYAxis, circlesGroup);
+        circlesGroup = updateTooltip(chosenXAxis, circlesGroup);
 
         //change classes to change bold text
         if (chosenXAxis === "poverty") {
@@ -349,7 +355,7 @@ if (value != chosenYAxis) {
     //update y scale for new data
     yLinearScale = yScale(healthdata, chosenYAxis);
 
-    //update x axis with transition
+    //update y axis with transition
     yAxis = renderAxesY(yLinearScale, yAxis);
 
     //update circles with new y values
@@ -359,7 +365,7 @@ if (value != chosenYAxis) {
     textGroup = renderText(textGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis)
 
     //update tooltips with new info
-    circlesGroup = updateTooltip(chosenXAxis, chosenYAxis, circlesGroup);
+    circlesGroup = updateTooltip(chosenXAxis, circlesGroup);
 
     //change classes to change bold text
     if (chosenYAxis === "obesity") {
