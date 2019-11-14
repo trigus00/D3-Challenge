@@ -71,6 +71,7 @@ d3.csv("/StarterCode/Basic/data/healthdata.csv").then(function(healthdata){
     data.poverty = +data.poverty
     data.abbr = data.abbr
     data.state = +data.state
+    data.id = +data.id
  
     
   });
@@ -109,7 +110,7 @@ chartGroup.append("g")
                                .attr("fill", "lightblue")
                                .attr("opacity", ".5");
 
-  var textGroup = chartGroup.selectAll("text")
+  var textGroup = circlesGroup.selectAll("text")
                             .data(healthdata)
                             .enter()
                             .append("text")
@@ -119,8 +120,8 @@ chartGroup.append("g")
                             .attr("cy", "10px") 
                             .attr("cx", "10px ") 
                             .attr("text-anchor", "middle")
-                            .text(d => d.abbr);
-    console.log(healthdata)
+                            .text(d => d.id);
+                            console.log(healthdata)
     
 // append y axis
   chartGroup.append("text")
